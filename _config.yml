@@ -1,7 +1,7 @@
 # Site
 title:              Katherinaxxx's Blog
-bio:                'Jekyll version of the Massively theme by HTML5UP'
-description:        "Jekyll version of the Massively theme by HTML5UP"
+bio:                'Katherinaxxx's Blog'
+description:        "Katherinaxxx's Blog"
 locale:             en_US
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://katherinaxxx.github.io" # the base hostname & protocol for your site
@@ -18,7 +18,7 @@ github:             Katherinaxxx
 
 # personal
 location:           Beijing, China
-phone:              13021045344
+phone:              
 email:              359391236@qq.com # change this to your email to receive free emails for your contact submissions via Slapform.com
 
 # Other
