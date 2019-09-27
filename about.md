@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Jekyll Theme - About - Massively
+title: Katherinaxxx's Blog - About
 description: When building a website it's helpful to see what the focus of your site is. This page is an example of how to show a website's focus.
 sitemap:
     priority: 0.7
@@ -9,7 +9,7 @@ sitemap:
 ---
 ## About Me
 
-<span class="image left"><img src="{{ "/images/pic06.jpg" | absolute_url }}" alt="" /></span>
+<span class="image left"><img src="{{ "/images/pic06.jpeg" | absolute_url }}" alt="" /></span>
 
 <p> I am a graduate student major in statistical machine learning. I will use this blog to record my learning and related projects on deep learning.If there is something wrong, or if you are interested in my research, please feel free to talk to me.
 </p>
