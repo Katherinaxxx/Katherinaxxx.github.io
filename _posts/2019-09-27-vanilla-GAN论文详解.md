@@ -36,11 +36,11 @@ $KL$散度衡量了两个分布的相似程度，越小说明分布越相似越�
 ## vanilla-GAN
 ### 基本思想
 GAN由生成器G和判别器D两部分组成，由于通常用于描述复杂数据的分布，所以D和G常用神经网络。G的目的是生成数据试图骗过D，D的目的是判断数据是来自于真实数据还是生成数据:
-![avatar](../images/post/GAN/v.jpg)
+![v](../images/post/GAN/v.jpg)
 给定G，先最大化$V(G,D)$更新D，然后固定G，通过最小化$V(G,D)$更新G。算法如下：
-![avatar](../images/post/GAN/algorithm.jpg)
+![algorithm](../images/post/GAN/algorithm.jpg)
 G和D相互博弈最终会达到纳什均衡。大致训练过程如下：
-![avatar](../images/post/GAN/train.jpg)
+![train](../images/post/GAN/train.jpg)
 图中，黑线表示真实数据的分布，绿线表示生成器生成数据的分布，蓝线是判别器的得分（经过sigmoid后得分越高说明判别器将判定为真实数据）。
 
 训练最初（a)，G还不能生成“逼真”的数据、D还不稳定。经过一定训练（b），D比较稳定训练的比较好，可以准确地将真实数据和生成数据区分开来。（c）D反过来会指引G往真实数据分布的方向偏移。最终（d），G可以生成足够“逼真”的数据骗过D，而D也无法区分真实数据和生成数据。
