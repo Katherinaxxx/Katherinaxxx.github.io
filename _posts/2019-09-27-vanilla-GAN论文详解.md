@@ -52,13 +52,16 @@ $KL$散度衡量了两个分布的相似程度，越小说明分布越相似越�
 ### 基本思想
 GAN由生成器G和判别器D两部分组成，由于通常用于描述复杂数据的分布，所以D和G常用神经网络。G的目的是生成数据试图骗过D，D的目的是判断数据是来自于真实数据还是生成数据:
 
-![v](/GAN/v.jpg)
+![v](https://katherinaxxx.github.io/images/post/GAN/v.jpg)
+
 给定G，先最大化$V(G,D)$更新D，然后固定G，通过最小化$V(G,D)$更新G。算法如下：
 
-![algorithm](GAN/algorithm.jpg)
+![algorithm](https://katherinaxxx.github.io/post/GAN/algorithm.jpg)
+
 G和D相互博弈最终会达到纳什均衡。大致训练过程如下：
 
-![train](../images/post/GAN/train.jpg)
+![train](https://katherinaxxx.github.io/images/post/GAN/train.jpg)
+
 图中，黑线表示真实数据的分布，绿线表示生成器生成数据的分布，蓝线是判别器的得分（经过sigmoid后得分越高说明判别器将判定为真实数据）。
 
 训练最初（a)，G还不能生成“逼真”的数据、D还不稳定。经过一定训练（b），D比较稳定训练的比较好，可以准确地将真实数据和生成数据区分开来。（c）D反过来会指引G往真实数据分布的方向偏移。最终（d），G可以生成足够“逼真”的数据骗过D，而D也无法区分真实数据和生成数据。
@@ -90,7 +93,7 @@ D^* &= arg\,\max_DV(G,D) \\
 $$
 >第二个等号可以离散的看，每个点达到最大值则其积分上也最大，只要找到所有的最大值，函数就找到了。
 
-$G$、$x$给定情况下¥$_{data}(x)$、$p_{G}(x)$为常数。则对$f(D)$求导并令导数为0，即可得出
+$G$、$x$给定情况下¥$p_{data}(x)$、$p_G(x)$为常数。则对$f(D)$求导并令导数为0，即可得出
 
 $$D^*(x) = \frac{p_{data}(x)}{p_{data}(x)+p_{G}(x)}$$
 证毕
