@@ -34,7 +34,7 @@ $$
 $$
 $KL$散度衡量了两个分布的相似程度，越小说明分布越相似越。由上述推导可知，用MLE估计分布参数的过程可以转化成最小化$KL$散度的问题。
 ## vanilla-GAN
-###基本思想
+### 基本思想
 GAN由生成器G和判别器D两部分组成，由于通常用于描述复杂数据的分布，所以D和G常用神经网络。G的目的是生成数据试图骗过D，D的目的是判断数据是来自于真实数据还是生成数据:
 ![avatar](../images/post/GAN/v.jpg)
 给定G，先最大化$V(G,D)$更新D，然后固定G，通过最小化$V(G,D)$更新G。算法如下：
@@ -47,7 +47,7 @@ G和D相互博弈最终会达到纳什均衡。大致训练过程如下：
 
 因而，D和G其实不仅仅是“敌人”关系，也有”师生“关系，作为”老师“的D引导着G的学习。
 
-###理论证明
+### 理论证明
 **1. 给定G，$D_G^*(x) = \frac{p_{data}(x)}{p_{data}(x)+p_{G}(x)}$**
 
 *Proof.* 给定G，最大化$V(G,D)$，即
@@ -58,6 +58,7 @@ V(G,D) &= \int_xp_{data}(x)log(D(x))\mathrm{d}x+ \int_zp_{z}(z)log(1-D(G(z)))\ma
 &= \int_xp_{data}(x)log(D(x))+p_{G}(x)log(1-D(x))\mathrm{d}x  
 \end{aligned}
 $$
+
 
 >第二个等号可以直观想，或者根据[Radon–Nikodym定理](https://en.wikipedia.org/wiki/Radon%E2%80%93Nikodym_theorem 'Radon–Nikodym定理')积分换元。
 
@@ -100,8 +101,9 @@ $$
 
 由以上证明，可以看出最终GAN也是要找一个最优的$G^*$使得$C(G)$最小，即也是使$JS$散度最小。与开篇联系起来了。
 
-###总结
+
+### 总结
 GAN的绝妙的对抗思想引发了学术界的思潮，但其本身在训练上有许多需要攻克的难题。因此在vanilla GAN的基础上衍生出了很多GANs用于解决这些问题，在此不赘述。
 
-###python实现
+### python实现
 最后附上GAN基于tensorflow的[实现](https://github.com/Katherinaxxx/MyML/blob/master/lib/generator/GAN.py '实现')。
