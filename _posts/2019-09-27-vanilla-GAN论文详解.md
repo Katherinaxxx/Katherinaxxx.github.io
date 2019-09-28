@@ -52,15 +52,15 @@ $KL$散度衡量了两个分布的相似程度，越小说明分布越相似越�
 ### 基本思想
 GAN由生成器G和判别器D两部分组成，由于通常用于描述复杂数据的分布，所以D和G常用神经网络。G的目的是生成数据试图骗过D，D的目的是判断数据是来自于真实数据还是生成数据:
 
-![v](https://katherinaxxx.github.io/images/post/GAN/v.jpg#width-full){:height="80%" width="80%"}
+![v](https://katherinaxxx.github.io/images/post/GAN/v.jpg#width-full){:height="90%" width="90%"}
 
 给定G，先最大化$V(G,D)$更新D，然后固定G，通过最小化$V(G,D)$更新G。算法如下：
 
-![algorithm](https://katherinaxxx.github.io/images/post/GAN/algorithm.jpg#width-full){:height="80%" width="80%"}
+![algorithm](https://katherinaxxx.github.io/images/post/GAN/algorithm.jpg#width-full){:height="90%" width="90%"}
 
 G和D相互博弈最终会达到纳什均衡。大致训练过程如下：
 
-![train](https://katherinaxxx.github.io/images/post/GAN/train.jpg#width-full){:height="80%" width="80%"}
+![train](https://katherinaxxx.github.io/images/post/GAN/train.jpg#width-full){:height="90%" width="90%"}
 
 图中，黑线表示真实数据的分布，绿线表示生成器生成数据的分布，蓝线是判别器的得分（经过sigmoid后得分越高说明判别器将判定为真实数据）。
 
