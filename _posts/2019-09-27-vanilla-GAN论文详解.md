@@ -5,7 +5,7 @@ date: 2019-09-27
 Author: Katherinaxxx
 tags: [GAN, generation model]
 excerpt: "vanilla-GAN的介绍、理论及实现"
-image: "/images/pic02.jpg"
+image: "/images/pic07.jpg"
 comments: true
 toc: true
 ---
