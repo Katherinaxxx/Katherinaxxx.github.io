@@ -37,7 +37,7 @@ defaults:
 
 # Jekyll
 permalink:          /blog/:title/
-markdown:           kramdown
+markdown:           markdown
 highlighter:        rouge
 kramdown:
   auto_ids:         true
