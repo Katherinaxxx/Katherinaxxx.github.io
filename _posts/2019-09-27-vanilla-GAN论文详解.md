@@ -23,7 +23,8 @@ toc: true
 
 >首先附上[vanilla-GAN论文](https://arxiv.org/abs/1406.2661 'vanilla-GAN论文')
 
-[TOC]
+* any list
+{:toc}
 
 ## 生成模型
 
