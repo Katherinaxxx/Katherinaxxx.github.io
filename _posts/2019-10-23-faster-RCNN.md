@@ -40,20 +40,27 @@ toc: true
 
 #### 特征提取
 
-feature map 将被用于RPN和FC
+feature map 将被用于RPN和FC，比如用VGG（原文）
+特点在于，所有的conv层都是：kernel_size=3，pad=1，stride=1
+所有的pooling层都是：kernel_size=2，pad=1，stride=1 。因此M*N通过一层（n）conv+relu+pool后变为M/2*N/2，经过四层这样的结构最后都会变成M/16*N/16
+
 
 #### RPN
 
 RPN的作用是生成候选框。特征提取得到的feature map通过卷积层以外，还增加了bounding box regression来修正从而获得精确的proposals。
 
-具体来讲，回归分类分别基于anchor得到的框计算是否是目标的概率以及与真实框重合的UoI，也就是判断anchors属于前景还是背景，再利用BBox regression修正anchors从而获得精确的proposals。
+具体来讲，回归分类分别基于anchor得到的框计算是否是目标的概率以及与真实框重合的UoI（满足以下其一判定为前景：（1）IoU最大[以防（2）无一满足的情况]（2）IoU>0.7），也就是判断anchors属于前景还是背景，再利用BBox regression得到偏移量用来修正anchors从而获得精确的proposals。同时也剔除了过小或超出边界的proposals
 
+**总结RPN：生成anchors -> softmax分类器提取positvie anchors -> bbox reg回归positive anchors -> Proposal Layer生成proposals**
+
+NMS：由于一些RPN proposals高度重合，为了减少重复，基于proposal区域的cls scores和IoU做NMS。可以减少proposal数量但不会影响最终的结果
 
 **anchor** 是在feature map上滑窗时，滑窗中心在原像素空间的映射点。滑窗中心对应k个(k=9)anchors作为初始的检测框，分前景和背景因此clf = 2k scores，同时四个坐标reg = 4k coordinates
 
 > [相关解释](https://blog.csdn.net/gm_margin/article/details/80245470)
 
 **BBox regression**
+窗口用(x,y,w,h)表示，其中x、y为中心点坐标w、h则为宽高。目标是寻找一种关系，使得输入原始的anchor A经过映射得到一个跟真实窗口G更接近的回归窗口G'
 
 ##### 训练RPNs
 
@@ -66,7 +73,11 @@ SGD； 256 anchors ；（0，0.01）高斯分布初始化参数；ZF net 、VGGN
 
 ### RoI pooling
 
-该层输入的是特征提取feature map和RPN给出的目标区域（大小各不相同），综合这些信息后提取目标区域的feature map，送入后续FC判定目标类别。
+实质干的是统一尺寸的活儿 有点像SPPNet里的金字塔。
+该层输入的是特征提取feature map和RPN给出的目标区域（大小各不相同），综合这些信息后提取目标区域的feature map(相同大小)，送入后续FC判定目标类别。
+
+RoI pooling的改进为roi align （最近邻插值->双线性插值）（取整->保留浮点）
+>[ROI操作：ROIPooling和ROIAlign的特点和区别](https://baijiahao.baidu.com/s?id=1616632836625777924&wfr=spider&for=pc)
 
 ### clf & reg
 
