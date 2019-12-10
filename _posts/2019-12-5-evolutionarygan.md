@@ -86,5 +86,8 @@ F越大越好。关于多样性，当x或G(z)在D上得分较高时，D的梯度
 
 ![al](https://katherinaxxx.github.io/images/post/egan/algorithm.jpg#width-full){:height="90%" width="90%"}
 
+每次迭代，D先训练 $n_D$ 次，之后用进化算法生成子代（实际是每个父代个体在不同mutation下均要计算梯度更新参数得到子代）、计算适应度、选择，然后进行下一次迭代。
 
 ### 实验
+
+> [code](https://github.com/WANG-Chaoyue/EvolutionaryGAN)

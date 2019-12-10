@@ -5,7 +5,7 @@ date: 2019-12-4
 Author: Katherinaxxx
 tags: [object detection]
 excerpt: "论文、代码"
-image: "/images/post/maskrcnn/.jpg"
+image: "/images/post/maskrcnn/maskrcnn.jpg"
 comments: true
 toc: true
 ---
