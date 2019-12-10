@@ -5,7 +5,7 @@ date: 2019-11-20
 Author: Katherinaxxx
 tags: [CNN]
 excerpt: "了解这些网络架构的衍生或许可以加深理解"
-image: "/images/pic10.jpg"
+image: "/images//post/cnn/vgg.jpg"
 comments: true
 toc: true
 ---
@@ -27,17 +27,19 @@ toc: true
 
 > [CNN Architectures, a Deep-dive](https://towardsdatascience.com/cnn-architectures-a-deep-dive-a99441d18049)
 [cs231n](http://cs231n.stanford.edu/)
+
+这些网络结构常常被迁移至各种学习任务中，做特征提取或者微调一下用于任务，也是常说的backbone
 ## AlexNet
 最初的CNN architecture，因此重要意义所以放在此处，现在其实并没有用了
 
 ## VGGNet (Visual Geometry Group)
 
-VGG的结构其实很简单，就是kernal size 3x3不变filter成倍增长的CNN layer的叠加
+**VGG的结构** 其实很简单，就是kernal size 3x3不变filter成倍增长的CNN layer的叠加
 以下是VGG的六种结构，其中VGG16和VGG19比较常用
 
 ![vgg](https://katherinaxxx.github.io/images/post/cnn/vgg.jpg#width-full){:height="90%" width="90%"}
 
-VGG存在的问题就在于网络越深后容易出现梯度消失，不过迁移学习和简单的分类还是很好用的。
+**VGG存在的问题** 就在于网络越深后容易出现梯度消失，不过迁移学习和简单的分类还是很好用的。
 
 ```python
 # 增加了drop out以减小过拟合
@@ -79,7 +81,7 @@ custom_vgg.summary()
 # Non-trainable params: 0
 # _________________________________________________________________
 ```
-
+**用处**：Faster R-CNN特征提取
 ## GoogleNet
 
 
@@ -87,7 +89,7 @@ custom_vgg.summary()
 
 ![resnet](https://katherinaxxx.github.io/images/post/cnn/resnet.jpg#width-full){:height="90%" width="90%"}
 
-2015年ImageNet中ResNet有152层，此前没有这么深的，并且错误率低至了3.57%，ResNet提出的residual block的结构使得它能实现这样的深度。此外，训练这样深的网络，在每conv层后加BN可以是训练更快并且降低梯度消失。ResNet有很多变体。
+2015年ImageNet中ResNet有152层，此前没有这么深的，并且错误率低至了3.57%，ResNet提出的**residual block**的结构使得它能实现这样的深度。此外，训练这样深的网络，在每conv层后加BN可以是训练更快并且降低梯度消失。ResNet有很多变体。**bottleneck**
 
 ResNext
 ILSVRC 2016 classification task第二名，提出了一个新的词“cardinality”，ResNeXt block里路径的数量即为“cardinality”，所有路径的拓扑结构相同。用更大的“cardinality”而非让网络更深或者更宽，可以得到更小的验证误差
@@ -156,3 +158,13 @@ resnet_model.summary()
 
 
 ## Xception Net
+
+## EfficientNet
+
+2019年发表[EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks](https://arxiv.org/abs/1905.11946)
+
+与其他网络的对比如下
+
+![efficientnet](https://katherinaxxx.github.io/images/post/cnn/efficientnet.jpg#width-full){:height="90%" width="90%"}
+
+用处：EfficientDet的backbone

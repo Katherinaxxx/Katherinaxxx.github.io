@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 目标检测---Fast RCNN
+title: Faster RCNN
 date: 2019-10-23
 Author: Katherinaxxx
 tags: [object detection]
@@ -77,7 +77,8 @@ SGD； 256 anchors ；（0，0.01）高斯分布初始化参数；ZF net 、VGGN
 该层输入的是特征提取feature map和RPN给出的目标区域（大小各不相同），综合这些信息后提取目标区域的feature map(相同大小)，送入后续FC判定目标类别。
 
 RoI pooling的改进为roi align （最近邻插值->双线性插值）（取整->保留浮点）
->[ROI操作：ROIPooling和ROIAlign的特点和区别](https://baijiahao.baidu.com/s?id=1616632836625777924&wfr=spider&for=pc)
+>Mask R-CNN指出RoI pooling存在问题， 即feature map和原始图像不对准从而会影响检测精度，因此提出ROI Align来取代RoI pooling，可以保证大致的位置。
+[ROI操作：ROIPooling和ROIAlign的特点和区别](https://baijiahao.baidu.com/s?id=1616632836625777924&wfr=spider&for=pc)
 
 ### clf & reg
 
