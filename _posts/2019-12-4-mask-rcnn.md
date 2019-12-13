@@ -25,7 +25,7 @@ toc: true
 * any list
 {:toc}
 
-> []()
+> [Mask R—CNN](https://arxiv.org/abs/1703.06870)
 ## Mask R—CNN
 
 一句话概括Mask R-CNN：Mask RCNN沿用了Faster RCNN的思想，特征提取采用ResNet-FPN的架构，另外多加了一个对每个RoI的二分Mask预测分支。也就是说，分类、bbox回归和mask分类三者并行。

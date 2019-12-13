@@ -114,3 +114,7 @@ CIFAR-10上的实验表明在同样结构下，EGAN的评估指标均好于其�
 #### LSUN
 
 LSUN上的实验证明了EGAN结构的鲁棒性。与其他GANs对比可以发现，更改结构中的东西会对结果造成很大影响，而EGAN基本没有太大的影响。
+
+### code
+
+[源码](https://github.com/WANG-Chaoyue/EvolutionaryGAN)是基于theano的，准备着手做一个pytorch版本，日后附上。
