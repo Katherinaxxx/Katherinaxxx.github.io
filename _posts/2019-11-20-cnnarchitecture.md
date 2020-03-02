@@ -466,7 +466,7 @@ xception.summary()
 
 用处：EfficientDet的backbone
 
-
+## UNet
 
 ## 总揽
 
@@ -482,3 +482,4 @@ xception.summary()
 | InceptionV3| 将7x7分解成两个一维的卷积（1x7,7x1），3x3也是一样（1x3,3x1）| 加深网络、非线性性；加速计算 |
 | InceptionV4| Inception模块结合residual connection | 加速训练 |
 | EfficientNet |
+| UNet |
