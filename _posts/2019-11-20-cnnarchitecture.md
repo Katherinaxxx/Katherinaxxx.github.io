@@ -27,14 +27,15 @@ toc: true
 
 > [CNN Architectures, a Deep-dive](https://towardsdatascience.com/cnn-architectures-a-deep-dive-a99441d18049)
 [cs231n](http://cs231n.stanford.edu/)
+[CNN网络结构的发展（最全整理）](https://blog.csdn.net/weixin_43876801/article/details/102886491)
 
 这些网络结构常常被迁移至各种学习任务中，做特征提取或者微调一下用于任务，也是常说的backbone
-## AlexNet
+## LeNet5、AlexNet
 最初的CNN architecture，因此重要意义所以放在此处，现在其实并没有用了
 
 ## VGGNet (Visual Geometry Group)
 
-**VGG的结构** 其实很简单，就是kernal size 3x3不变filter成倍增长的CNN layer的叠加
+**VGG的结构** 其实很简单，就是kernal size 3x3不变filter成倍增长的CNN layer的叠加。
 以下是VGG的**六种**结构，其中VGG16和VGG19比较常用
 
 ![vgg](https://katherinaxxx.github.io/images/post/cnn/vgg.jpg#width-full){:height="90%" width="90%"}
@@ -472,14 +473,11 @@ xception.summary()
 
 |  网络  |  特点（改良）  |  优点  |  缺点  |
 |  ----  | ----  |  ----  | ----  |
-| AlexNet |
-| ResNet |
-| VGG |
-| GoogleNet |
-| DenseNet |
-| InceptionV1| 1x1，3x3，5x5的conv和3x3的pooling，stack在一起 | 更宽；增加了对尺度的适应性 |
-| InceptionV2| 用两个3x3的卷积代替5x5的大卷积；BN| 降低参数量；加速计算 |
-| InceptionV3| 将7x7分解成两个一维的卷积（1x7,7x1），3x3也是一样（1x3,3x1）| 加深网络、非线性性；加速计算 |
-| InceptionV4| Inception模块结合residual connection | 加速训练 |
+| VGG |全部使用3×3卷积核的堆叠，来模拟更大的感受野，并且网络层数更深。VGG有五段卷积，每段卷积后接一层最大池化。卷积核数目逐渐增加。|更深了，迁移学习和简单的分类还是很好用的|网络越深后容易出现梯度消失和参数更多容易出现过拟合|
+|  GoogleNet（InceptionV1）| 1x1，3x3，5x5的conv和3x3的pooling，stack在一起 | 更宽（增加了模型的复杂度）同时减少了参数；增加了对尺度的适应性 |
+| InceptionV2| 用两个3x3的卷积代替5x5的大卷积；BN| 网络更深，降低参数量；加速计算 |
+| InceptionV3| 核心思想是将卷积核分解成更小的卷积：将7x7分解成两个一维的卷积（1x7,7x1），3x3也是一样（1x3,3x1）| 加深网络减少参数、非线性性；加速计算 |
+| InceptionV4| Inception模块结合residual connection | 加速训练 | 但是当滤波器的数目过大（>1000）时，训练很不稳定，可以加入activate scaling因子来缓解|
+| DenseNet |通过特征重用来大幅减少网络的参数量，又在一定程度上缓解了梯度消失问题|
 | EfficientNet |
 | UNet |

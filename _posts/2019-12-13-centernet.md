@@ -5,7 +5,7 @@ date: 2019-12-13
 Author: Katherinaxxx
 tags: [object detection]
 excerpt: " "
-image: "/images/post/centernet/ .jpg"
+image: "/images/post/centernet/1/1.jpg"
 comments: true
 toc: true
 ---
@@ -48,7 +48,7 @@ anchor-free目标检测属于anchor-free系列的目标检测，相比于CornerN
 
 #### 介绍
 
-将单个点作为目标---其边界框的中心点。检测器使用**关键点估计***来找到中心点，然后回归到所有其他目标属性，例如大小，3D位置，方向和角度。
+将单个点作为目标---其边界框的中心点。检测器使用**关键点估计**来找到中心点，然后回归到所有其他目标属性，例如大小，3D位置，方向和角度。
 
 ![f](https://katherinaxxx.github.io/images/post/centernet/1/1.jpg#width-full){:height="90%" width="90%"}
 
@@ -80,7 +80,7 @@ CenterNet是在keypoint estimation的基础上的改进
 
 在预测阶段，首先针对一张图像进行下采样，随后对下采样后的图像进行预测，对于每个类在下采样的特征图中预测中心点，然后将输出图中的每个类的热点单独地提取出来。具体提取就是，检测当前热点的值是否比周围的八个近邻点(八方位)都大(或者等于)，然后取100个这样的点，采用的方式是一个3x3的MaxPool，类似于anchor-based检测中nms的效果。
 
-
+---
 
 ### CenterNet: Keypoint Triplets for Object Detection
 
