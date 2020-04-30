@@ -33,7 +33,7 @@ toc: true
 
 > [论文也撞衫，你更喜欢哪个无锚点CenterNet？](https://www.jiqizhixin.com/articles/2019-09-17-6)
 
-### CenterNet :Objects as Points
+### CenterNet:Objects as Points
 > [扔掉anchor！真正的CenterNet——Objects as Points论文解读](https://zhuanlan.zhihu.com/p/66048276)
 
 anchor-free目标检测属于anchor-free系列的目标检测，相比于CornerNet做出了改进，使得检测速度和精度相比于one-stage和two-stage的框架都有不小的提高，尤其是与YOLOv3作比较，在相同速度的条件下，CenterNet的精度比YOLOv3提高了4个左右的点。

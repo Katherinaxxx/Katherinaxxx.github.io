@@ -477,7 +477,8 @@ xception.summary()
 |  GoogleNet（InceptionV1）| 1x1，3x3，5x5的conv和3x3的pooling，stack在一起 | 更宽（增加了模型的复杂度）同时减少了参数；增加了对尺度的适应性 |
 | InceptionV2| 用两个3x3的卷积代替5x5的大卷积；BN| 网络更深，降低参数量；加速计算 |
 | InceptionV3| 核心思想是将卷积核分解成更小的卷积：将7x7分解成两个一维的卷积（1x7,7x1），3x3也是一样（1x3,3x1）| 加深网络减少参数、非线性性；加速计算 |
-| InceptionV4| Inception模块结合residual connection | 加速训练 | 但是当滤波器的数目过大（>1000）时，训练很不稳定，可以加入activate scaling因子来缓解|
+| InceptionV4| Inception module还是沿袭了Inception v2/v3的结构，只是结构看起来更加简洁统一，并且使用更多的Inception module，实验效果也更好 | 加速训练 |  |
+| Inception-ResNet| Inception模块结合residual connection | 加速训练 | 但是当滤波器的数目过大（>1000）时，训练很不稳定，可以加入activate scaling因子来缓解|
 | DenseNet |通过特征重用来大幅减少网络的参数量，又在一定程度上缓解了梯度消失问题|
 | EfficientNet |
 | UNet |
