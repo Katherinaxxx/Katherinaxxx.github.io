@@ -6,7 +6,7 @@ date: 2020-01-15
 Author: Katherinaxxx
 tags: [video]
 excerpt: "（监控）视频摘要、视频压缩、融合 "
-image: "/images/post/cnn/vgg.jpg"
+image: "/images/post/.jpg"
 comments: true
 toc: true
 ---

@@ -91,6 +91,8 @@ GoogleNet网络的大部分初始收益来源于大量地使用降维。
 
 ![resnet](https://katherinaxxx.github.io/images/post/cnn/resnet.jpg#width-full){:height="90%" width="90%"}
 
+网络变深了可能会梯度消失甚至模型退化，ResNet应时而生。增加恒等映射后自然不会那么容易出现梯度消失了。
+
 2015年ImageNet中ResNet有152层，此前没有这么深的，并且错误率低至了3.57%，ResNet提出的**residual block**的结构使得它能实现这样的深度。此外，训练这样深的网络，在每conv层后加BN可以是训练更快并且降低梯度消失。
 
 ResNet有很多变体。**bottleneck**
@@ -459,13 +461,22 @@ xception.summary()
 
 ## EfficientNet
 
-2019年发表[EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks](https://arxiv.org/abs/1905.11946)
+由Google於2019年提出[EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks](https://arxiv.org/abs/1905.11946)，透過Google AutoML的技術，搭建了八種高效的模型，分別為B0-B7，而如果我們將細節拆開來看，其實Bottleneck是由MobileNetV2所提出的 Inverted residual block加上Squeeze-and-Excitation Networks所組成
+
 
 与其他网络的对比如下
 
 ![efficientnet](https://katherinaxxx.github.io/images/post/cnn/efficientnet.jpg#width-full){:height="90%" width="90%"}
 
 用处：EfficientDet的backbone
+
+## MobileNet
+### v1 v2
+當低通道數的Feature Map經過ReLU激活後，所有值都會大於等於零，造成大量訊息的流失，因此有別於Resnet先壓縮、V1直接做Depthwise separable convolution，MobileNetV2則是先透過Pointwise卷積擴張Feature Map深度。
+### v3
+只能說大神們發論文的速度比我們看論文的速度還要快，MobilenetV3傳承V1 的 Depthwise separable convolution、V2的跨接與先放大再壓縮觀念，並加入了Squeeze-and-Excitation Networks，所以整個架構上與EfficientNet的MBConvBlock很相似，除此之外MobilenetV3在激勵函數上做了一些變動：
+H-swish
+部分Block中的ReLU使用H-swish取代，Sigmoid則使用H-sigmoid取代，H-swish是參考swish函數設計，主要是由於swish函數運算較慢，作者實驗證實，使用H-swish能提高準度
 
 ## UNet
 
@@ -474,11 +485,13 @@ xception.summary()
 |  网络  |  特点（改良）  |  优点  |  缺点  |
 |  ----  | ----  |  ----  | ----  |
 | VGG |全部使用3×3卷积核的堆叠，来模拟更大的感受野，并且网络层数更深。VGG有五段卷积，每段卷积后接一层最大池化。卷积核数目逐渐增加。|更深了，迁移学习和简单的分类还是很好用的|网络越深后容易出现梯度消失和参数更多容易出现过拟合|
+| ResNet | residual block结构 | 缓解梯度消失、模型退化 |
+| DenseNet |通过特征重用来大幅减少网络的参数量，又在一定程度上缓解了梯度消失问题|
 |  GoogleNet（InceptionV1）| 1x1，3x3，5x5的conv和3x3的pooling，stack在一起 | 更宽（增加了模型的复杂度）同时减少了参数；增加了对尺度的适应性 |
-| InceptionV2| 用两个3x3的卷积代替5x5的大卷积；BN| 网络更深，降低参数量；加速计算 |
-| InceptionV3| 核心思想是将卷积核分解成更小的卷积：将7x7分解成两个一维的卷积（1x7,7x1），3x3也是一样（1x3,3x1）| 加深网络减少参数、非线性性；加速计算 |
+| InceptionV2 | 用两个3x3的卷积代替5x5的大卷积；BN| 网络更深，降低参数量；加速计算 |
+| InceptionV3 | 核心思想是将卷积核分解成更小的卷积：将7x7分解成两个一维的卷积（1x7,7x1），3x3也是一样（1x3,3x1）| 加深网络减少参数、非线性性；加速计算 |
 | InceptionV4| Inception module还是沿袭了Inception v2/v3的结构，只是结构看起来更加简洁统一，并且使用更多的Inception module，实验效果也更好 | 加速训练 |  |
 | Inception-ResNet| Inception模块结合residual connection | 加速训练 | 但是当滤波器的数目过大（>1000）时，训练很不稳定，可以加入activate scaling因子来缓解|
-| DenseNet |通过特征重用来大幅减少网络的参数量，又在一定程度上缓解了梯度消失问题|
 | EfficientNet |
+| MobileNet|
 | UNet |

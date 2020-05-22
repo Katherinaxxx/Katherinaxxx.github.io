@@ -62,6 +62,8 @@ anchor-free目标检测属于anchor-free系列的目标检测，相比于CornerN
 **CenterNet与其他keypoint estimation方法相比不需要分组与后续处理，更简单。**
 CenterNet是在keypoint estimation的基础上的改进
 
+**anchor-free的方法对比anchor方法： anchor适用于检测目标长宽比例均衡的，anchor-free适用于检测比例不均衡的。因为比如FasterRCNN对anchor的设置就有限制（9个：1*1，1*3，3*1三种各三个），而anchor-free的方法没有这种限制。**
+
 ![f](https://katherinaxxx.github.io/images/post/centernet/1/lunwen.jpg#width-full){:height="90%" width="90%"}
 
 #### 用到的网络

@@ -44,10 +44,14 @@ feature map 将被用于RPN和FC，比如用VGG（原文）
 特点在于，所有的conv层都是：kernel_size=3，pad=1，stride=1
 所有的pooling层都是：kernel_size=2，pad=1，stride=1 。因此M*N通过一层（n）conv+relu+pool后变为M/2*N/2，经过四层这样的结构最后都会变成M/16*N/16
 
+>相比较YOLOv3经过下采样分辨率变为原来的1/32，FasterRCNN是1/16，也是因为这个原因FasterRCNN在小物体目标检测上效果优于YOLOv3
+
 
 #### RPN
 
-RPN的作用是生成候选框。特征提取得到的feature map通过卷积层以外，还增加了bounding box regression来修正从而获得精确的proposals。
+RPN的作用是生成候选框。输入为特征提取得到的feature map。
+
+特征提取得到的feature map通过卷积层以外，还增加了bounding box regression来修正从而获得精确的proposals。**因此是两个分支，一个用于计算anchor对应前景背景的概率，一个用于计算anchor的bounding box偏移来定位。**
 
 具体来讲，回归分类分别基于anchor得到的框计算是否是目标的概率以及与真实框重合的UoI（满足以下其一判定为前景：（1）IoU最大[以防（2）无一满足的情况]（2）IoU>0.7），也就是判断anchors属于前景还是背景，再利用BBox regression得到偏移量用来修正anchors从而获得精确的proposals。同时也剔除了过小或超出边界的proposals
 
@@ -62,6 +66,8 @@ NMS：由于一些RPN proposals高度重合，为了减少重复，基于proposa
 **BBox regression**
 窗口用(x,y,w,h)表示，其中x、y为中心点坐标w、h则为宽高。目标是寻找一种关系，使得输入原始的anchor A经过映射得到一个跟真实窗口G更接近的回归窗口G'
 
+>对比RPN和YOLOv3
+YOLOv3借鉴了RPN。RPN两个分支分开做的，预测前景背景但不会对目标分类；而YOLOv3是整个就是回归得到目标类别和坐标。然后具体的设置细节不一样。
 ##### 训练RPNs
 
 SGD； 256 anchors ；（0，0.01）高斯分布初始化参数；ZF net 、VGGNet； lr=0.0001 decay=0.0005 momentum=0.9
