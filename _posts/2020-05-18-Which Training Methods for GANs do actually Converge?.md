@@ -4,7 +4,7 @@ title: Which Training Methods for GANs do actually Converge?
 date: 2020-05-18
 Author: Katherinaxxx
 tags: [GAN, generation model]
-excerpt: "vanilla-GAN的介绍、理论及实现"
+excerpt: "GANs训练收敛理论分析"
 image: "/images/post/.jpg"
 comments: true
 toc: true
@@ -140,6 +140,56 @@ Lemma3.3证明了用零均值梯度惩罚时，梯度向量场的雅各比矩阵
 
 这一部分证明在一定稳定假设下，提出的惩罚方法的收敛结果。
 
+收敛分析基于理想的假设，即假设生成器的分布与真实数据分布一致：
+【此处假设1、2】
+
+由于神经网络的均衡点通常不唯一，而是等效均衡点的子流形。因此假设了两个reparameterization manifolds，并且假设了他们在均衡点附近的一些性质：
+【此处假设3】
+
+？？？涉及流形的切线空间
+
+第一个条件是简单的规则性属性，这意味着MD的几何形状可以由h的二阶导数局部描述。
+第二个条件则暗示D已经好到可以检测出任何G偏离均衡分布的偏差。？？？
+
+假设做完了，接下来给出收敛结论。
+
+Theorem4.1 表明在以上假设满足下，给足够小的学习率，这两种惩罚（初始在(θ∗, ψ∗)附近）在同时和交替梯度下均可以收敛到MG× MD。并且收敛速度至少是线性的。
+尽管不能证明全局收敛，但是至少在均衡点附近可以收敛/表现好。
+
+论文正文部分在这后面就是实验了
+
+
+## 理论部分
+
+### A. Preliminaries
+
+这部分总结了一些前人的理论研究，主要从以下几个方面：
+
+  * A.1. Discrete dynamical systems
+
+  * A.2. Simultaneous and Alternating Gradient Descent
+
+  * A.3. Eigenvalue bounds
+
+
+### B. Proofs for the Dirac-GAN
+
+这部分证明了正文第二节和第三节中的引理
+
+
+### C. Other regularization strategies
+
+这部分补充了正文提到的其他惩罚方法，但是在正文中由于篇幅受限没有详细展开。
+
+在WGAN-DP提到了一点：对于WGAN，强调只有在每个生成器更新都使用固定数量的判别器更新训练的情况下，这种分析才成立。 再次，更仔细的训练可以确保判别器始终保持最佳状态，或者进行两次时间尺度的训练（Heusel等，2017），也许能够确保WGAN-GP的收敛。
+
+>(Heusel等，2017)用到了Stochastic approximation with two time scales的Theorem1.1，从而证明在假设条件下GANs的two-timescale的训练可以收敛。
+>Stochastic approximation with two time scales
+
+
+### D. General convergence results
+
+这部分证明了theorem4.1，并且将Nagarajan & Kolter (2017)的证明拓展到本文的条件（更宽松）。
 
 
 
@@ -183,9 +233,31 @@ Lemma3.3证明了用零均值梯度惩罚时，梯度向量场的雅各比矩阵
 
 
 
+## 代码
+
+R1的计算
+
+```python
+
+    reg = self.reg_param * compute_grad2(d_real, x_real).mean()
+    return reg.item()
+
+def compute_grad2(d_out, x_in):
+    batch_size = x_in.size(0)
+    grad_dout = autograd.grad(
+        outputs=d_out.sum(), inputs=x_in,
+        create_graph=True, retain_graph=True, only_inputs=True
+    )[0]
+    grad_dout2 = grad_dout.pow(2)
+    assert(grad_dout2.size() == x_in.size())
+    reg = grad_dout2.view(batch_size, -1).sum(1)
+    return reg
+```
 
 
 
 
 
 ## 读后感 :)
+
+原来收敛的研究先前也做了很多，得一个个找回去理一下思路，现在只是简单总结论文里提到的点。

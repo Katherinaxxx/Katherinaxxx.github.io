@@ -87,6 +87,10 @@ custom_vgg.summary()
 ## GoogleNet
 GoogleNet网络的大部分初始收益来源于大量地使用降维。
 
+综合NIN考虑1X1卷积的作用主要为以下两点：
+* 实现信息的跨通道交互和整合。
+* 对卷积核通道数进行降维和升维，减小参数量。
+
 ## ResNet
 
 ![resnet](https://katherinaxxx.github.io/images/post/cnn/resnet.jpg#width-full){:height="90%" width="90%"}
@@ -288,6 +292,13 @@ dense_net.summary()
 
 与ResNet相比，DenseNet具有更多的中间连接。此外，我们可以在“密集”层中使用较小的过滤器数量，这对于较小的模型非常有用。
 
+**DenseNet网络的优点包括：**
+
+* 减轻了梯度消失
+* 加强了feature的传递
+* 更有效地利用了feature 
+* 一定程度上较少了参数数量
+* 一定程度上减轻了过拟合
 
 ## Inception Net
 
@@ -470,13 +481,48 @@ xception.summary()
 
 用处：EfficientDet的backbone
 
+==========
+# 以下介绍轻量级网络
+> [参考](https://www.cnblogs.com/vincent1997/p/10916734.html)
+所谓轻量模型就是模型复杂度降低的模型，用理论计算量（FLOPs）：浮点运算次数（FLoating-point Operation）
+参数数量(params)：单位通常为M，用float32表示。
+来衡量模型复杂度
+
+## SqueezeNet
+和AlexNet同等精度，但是参数量更少
+**提出 fire module ，包含两部分squeeze和expand** 见下图
+* squeeze为1x1卷积且s1<m,起压缩作用
+* expand为e1个1x1卷积和e3个3x3卷积，将这部分结果concat
+![](https://katherinaxxx.github.io/images/post/cnn/squeeze.jpg#width-full){:height="90%" width="90%"}
+
 ## MobileNet
+
 ### v1 v2
-當低通道數的Feature Map經過ReLU激活後，所有值都會大於等於零，造成大量訊息的流失，因此有別於Resnet先壓縮、V1直接做Depthwise separable convolution，MobileNetV2則是先透過Pointwise卷積擴張Feature Map深度。
+
+#### v1
+* 當低通道數的Feature Map經過ReLU激活後，所有值都會大于等于零，造成大量訊息的流失，因此有別於Resnet先壓縮、V1直接做 **Depthwise separable convolution** ，由两部分组成即Depthwise Conv【对输入feature的每个通道单独做卷积操作，得到每个通道对应的输出feature】，Pointwise conv【将depthwise conv的输出，即不同通道的feature map结合起来，从而达到和std conv一样的效果】
+* 此外，提出两个超参数Width Multiplier和Resolution Multiplier来平衡时间和精度
+
+#### v2
+* 引入残差结构和bottleneck层
+* ReLU会破坏信息，故去掉第二个Conv1x1后的ReLU，改为线性神经元
+
 ### v3
 只能說大神們發論文的速度比我們看論文的速度還要快，MobilenetV3傳承V1 的 Depthwise separable convolution、V2的跨接與先放大再壓縮觀念，並加入了Squeeze-and-Excitation Networks，所以整個架構上與EfficientNet的MBConvBlock很相似，除此之外MobilenetV3在激勵函數上做了一些變動：
 H-swish
 部分Block中的ReLU使用H-swish取代，Sigmoid則使用H-sigmoid取代，H-swish是參考swish函數設計，主要是由於swish函數運算較慢，作者實驗證實，使用H-swish能提高準度
+
+## ShuffleNet
+
+### v1
+* 利用group convolution和channel shuffle来减少模型参数量
+* ShuffleNet unit[从ResNet bottleneck 演化而来]，其实就是带depth-wise conv的bottleneck unit然后细节上还改了一点
+
+### v2
+* 同等通道最小化内存访问量（1x1卷积平衡输入和输出通道大小）
+* 过量使用组卷积增加内存访问量（谨慎使用组卷积）
+* 网络碎片化降低并行度（避免网络碎片化）
+* 不能忽略元素级操作（减少元素级运算）
 
 ## UNet
 
@@ -484,7 +530,7 @@ H-swish
 
 |  网络  |  特点（改良）  |  优点  |  缺点  |
 |  ----  | ----  |  ----  | ----  |
-| VGG |全部使用3×3卷积核的堆叠，来模拟更大的感受野，并且网络层数更深。VGG有五段卷积，每段卷积后接一层最大池化。卷积核数目逐渐增加。|更深了，迁移学习和简单的分类还是很好用的|网络越深后容易出现梯度消失和参数更多容易出现过拟合|
+| VGG |全部使用3×3卷积核的堆叠，来模拟更大的感受野(5x5)，并且网络层数更深增强提取特征的能力，同时较少参数。VGG有五段卷积，每段卷积后接一层最大池化。卷积核数目逐渐增加。|更深了，参数更少，迁移学习和简单的分类还是很好用的|网络越深后容易出现梯度消失和参数更多容易出现过拟合|
 | ResNet | residual block结构 | 缓解梯度消失、模型退化 |
 | DenseNet |通过特征重用来大幅减少网络的参数量，又在一定程度上缓解了梯度消失问题|
 |  GoogleNet（InceptionV1）| 1x1，3x3，5x5的conv和3x3的pooling，stack在一起 | 更宽（增加了模型的复杂度）同时减少了参数；增加了对尺度的适应性 |
@@ -493,5 +539,6 @@ H-swish
 | InceptionV4| Inception module还是沿袭了Inception v2/v3的结构，只是结构看起来更加简洁统一，并且使用更多的Inception module，实验效果也更好 | 加速训练 |  |
 | Inception-ResNet| Inception模块结合residual connection | 加速训练 | 但是当滤波器的数目过大（>1000）时，训练很不稳定，可以加入activate scaling因子来缓解|
 | EfficientNet |
-| MobileNet|
-| UNet |
+| MobileNet| 待补充 之前面试问到过 跟EffcientNet有什么区别 |
+|SqueezeNet、MobileNet、ShuffleNet 待补充|
+| UNet | 用于分割|

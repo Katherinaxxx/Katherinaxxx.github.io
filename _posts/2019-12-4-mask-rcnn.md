@@ -53,6 +53,8 @@ toc: true
 
 这种结构可以将各个层级的特征进行融合，使其同时具有强语义信息和强空间信息，其实可以是特征提取的通用架构，可以和各种bone net相结合。Mask R-CNN则是用的ResNet-FPN，ResNet还可以是：ResNet-50,ResNet-101,ResNeXt-50,ResNeXt-101。
 
+*FPN可以同时利用低层特征高分辨率和高层特征的高语义信息，通过融合这些不同层的特征达到很好的预测效果。* 尤其在小物体目标检测明显提高准确率，和缓解语义不明（重叠）。
+
 ResNet-FPN作为特征提取用在Mask R-CNN中取得了精确度与速度的共同提升。
 
 #### Faster R-CNN + mask
