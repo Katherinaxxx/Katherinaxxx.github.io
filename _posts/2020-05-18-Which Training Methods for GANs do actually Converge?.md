@@ -5,7 +5,7 @@ date: 2020-05-18
 Author: Katherinaxxx
 tags: [GAN, generation model]
 excerpt: "GANs训练收敛理论分析"
-image: "/images/post/.jpg"
+image: "/images/0.jpeg"
 comments: true
 toc: true
 ---
